@@ -3,6 +3,16 @@
 
 
 Criando uma plataforma de perguntas e respostas com MySQL
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "bootstrap": "^5.3.0-alpha3",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "mysql2": "^3.2.0",
+    "sequelize": "^6.31.0"
+  }
+
+
 ![image](https://user-images.githubusercontent.com/68399974/232638045-347bce28-30d3-4aaf-bd0e-e04f7e46ae35.png)
 
 
