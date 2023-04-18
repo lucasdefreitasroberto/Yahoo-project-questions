@@ -1,0 +1,34 @@
+<%- include('partials/header') -%>
+
+<body>
+  <%- include('partials/navbar') -%>
+
+  <div class="container">
+    <div class="TituloPerguntas">
+      <a class="navbar-brand " href="/perguntar">
+        <div id="liveAlertPlaceholder">
+          <button class="custom-btn btn-12 btn"><span>Perguntar ?</span><span>Perguntas </span></button>
+        </div>
+      </a>
+    </div>
+
+    <% perguntas.forEach(pergunta=> {%>
+    <br>
+    <div class="card border-dark mb-3">
+      <div class="card-body">
+        <h3><%= pergunta.titulo %></h3>
+      </div>
+
+      <div class="card-footer">
+        <a href="perguntar/<%= pergunta.id %> ">
+          <button class="btn btn-outline-dark">Responder</button>
+        </a>
+      </div>
+    </div>
+
+    <%}) %>
+  </div>
+  <hr>
+</body>
+
+<%- include('partials/footer') -%>
