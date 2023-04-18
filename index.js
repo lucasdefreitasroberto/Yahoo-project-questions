@@ -23,12 +23,19 @@ app.use(express.static("public"));
 //Body-Parser//
 const bodyParser = require("body-parser");
 const pergunta = require("./database/pergunta");
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(bodyParser.json());
 
 //Rotas//
 app.get("/", (req, res) => {
-  pergunta.findAll({ raw: true, order: [["id", "DESC"]] }).then((Perguntas) => {
+  pergunta.findAll({
+    raw: true,
+    order: [
+      ["id", "DESC"]
+    ]
+  }).then((Perguntas) => {
     res.render("Principal.ejs", {
       perguntas: Perguntas,
     });
@@ -40,56 +47,67 @@ app.get("/perguntar", (req, res) => {
 });
 
 app.post("/salvarpergunta", (req, res) => {
-  var titulo = req.body.titulo;
-  var descricao = req.body.descricao;
+      var titulo = req.body.titulo;
+      var descricao = req.body.descricao;
 
-  Pergunta.create({
-    titulo: titulo,
-    descricao: descricao,
-  }).then(() => {
-    res.redirect("/");
-  });
-});
+      if (titulo.length !== 0) {
+        if (descricao.length !== 0) {
+          Pergunta.create({
+            titulo: titulo,
+            descricao: descricao,
+          }).then(() => {
+            res.redirect("/");
+          });
+        }else{
+          console.log("");
+        } 
+      }else{
+        console.log("");
+      }});
 
-app.get("/perguntar/:id",(req ,res) => {
-  var id = req.params.id;
-  Pergunta.findOne({
-      where: {id: id}
-  }).then(pergunta => {
-      if(pergunta != undefined){ // Pergunta encontrada
+    app.get("/perguntar/:id", (req, res) => {
+      var id = req.params.id;
+      Pergunta.findOne({
+        where: {
+          id: id
+        }
+      }).then(pergunta => {
+        if (pergunta != undefined) { // Pergunta encontrada
 
           Resposta.findAll({
-              where: {perguntaid: pergunta.id},
-              order:[ 
-                  ['id','DESC'] 
-              ]
+            where: {
+              perguntaid: pergunta.id
+            },
+            order: [
+              ['id', 'DESC']
+            ]
           }).then(respostas => {
-              res.render("pergunta",{
-                  pergunta: pergunta,
-                  respostas: respostas
-              });
+            res.render("pergunta", {
+              pergunta: pergunta,
+              respostas: respostas
+            });
           });
 
-      }else{ // Não encontrada
+        } else { // Não encontrada
           res.redirect("/");
-      }
-  });
-})
+        }
+      });
+    })
 
-app.post("/responder",(req, res) => {
-    var corpo = req.body.corpo;
-    var perguntaid = req.body.pergunta;
+    app.post("/responder", (req, res) => {
+      var corpo = req.body.corpo;
+      var perguntaid = req.body.pergunta;
 
-    Resposta.create({
+      Resposta.create({
         corpo: corpo,
         perguntaid: perguntaid
-    }).then(() => {
-        res.redirect("/perguntar/"+perguntaid);
+      }).then(() => {
+        res.redirect("/perguntar/" + perguntaid);
+      });
     });
-});
 
-//App rodando na porta 4000//
-app.listen(3000, (req, res) => {
-  console.log("Aplcação Rodando");
-  console.log("listening on http://localhost:3000");
-});
+    //App rodando na porta 4000//
+    app.listen(3000, (req, res) => {
+      console.log("Aplcação Rodando");
+      console.log("listening on http://localhost:3000");
+    });
