@@ -1,5 +1,5 @@
-# Projeto-YahooPergunta
- Projeto YahooPergunta
+# yahoo project questions
+
 
 
 Criando uma plataforma de perguntas e respostas com MySQL  <br>
